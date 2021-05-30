@@ -3,8 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Admin;
+use App\Entity\Category;
 use App\Entity\Contact;
+use App\Entity\Customer;
+use App\Entity\Product;
 use App\Entity\Products;
+use App\Entity\Seller;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -37,17 +41,25 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
-            MenuItem::subMenu('Entities', 'fa fa-folder')->setSubItems([
-                MenuItem::linkToCrud('Admin', 'fas fa-user-shield', Admin::class)
+            MenuItem::subMenu('Users', 'fa fa-folder')->setSubItems([
+                MenuItem::linkToCrud('Admins', 'fas fa-user-shield', Admin::class)
                     ->setPermission('ROLE_SUPER_ADMIN'),
+                MenuItem::linkToCrud('Sellers', 'fas fa-user-tie', Seller::class),
+                MenuItem::linkToCrud('Customers', 'fas fa-user-tag', Customer::class),
                 MenuItem::linkToCrud('Users', 'fas fa-user', User::class),
-                MenuItem::linkToCrud('Products', 'fas fa-shopping-bag', Products::class),
             ]),
+            MenuItem::subMenu('Products', 'fa fa-folder')->setSubItems([
+                MenuItem::linkToCrud('Products', 'fas fa-shopping-bag', Product::class),
+
+            ]),
+
+            MenuItem::linkToCrud('Category', 'fas fa-clipboard-list', Category::class),
             MenuItem::linkToCrud('Contact', 'fas fa-inbox', Contact::class),
 
             MenuItem::subMenu('Settings', 'fa fa-cogs')->setSubItems([
 
-            ])];
+            ])
+        ];
 
     }
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -64,7 +65,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"post", "put"})
+     * @Groups({"get"})
      */
     private array $roles = [];
 
@@ -91,14 +92,6 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"get", "post", "put"})
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
-     */
-    private ?string $fullName;
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"post", "put"})
      * @Assert\NotNull
@@ -106,6 +99,43 @@ class User implements UserInterface
      * @Assert\Email()
      */
     private ?string $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"post", "put", "get"})
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"post", "put", "get"})
+     *
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"post", "put", "get"})
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     * @Groups({"get"})
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLogin;
 
     public function getId(): ?int
     {
@@ -210,21 +240,77 @@ class User implements UserInterface
         $this->retypedPassword = $retypedPassword;
     }
 
-    public function __toString(): string
+    public function getFirstName(): ?string
     {
-        return $this->getFullName();
+        return $this->firstName;
     }
 
-    public function getFullName(): ?string
+    public function setFirstName(?string $firstName): self
     {
-        return $this->fullName;
-    }
+        $this->firstName = $firstName;
 
-    public function setFullName(string $fullName): self
-    {
-        $this->fullName = $fullName;
         return $this;
     }
 
-    
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+
 }
