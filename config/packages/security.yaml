@@ -1,0 +1,51 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User: bcrypt
+        App\Entity\Admin:
+            algorithm: bcrypt
+
+    providers:
+        database:
+            entity:
+                class: App\Entity\User
+                property: username
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\Admin
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        api:
+            pattern: ^/api
+            anonymous: true
+            stateless: true
+            provider: database
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        admin:
+            pattern: ^/
+            anonymous: lazy
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\AppAuthenticator
+            logout:
+                path: app_logout
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api/docs, roles: ROLE_ADMIN }
+#        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/profile, roles: ROLE_USER }
