@@ -12,12 +12,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
  * @ApiResource(
- *      itemOperations={},
+ *      formats={
+ *          "json"
+ *     },
+ *      itemOperations={
+ *              "get"={
+ *                  "normalization_context"={
+ *                   "groups"={"get"}
+ *            }
+ *        },
+ *     },
  *      collectionOperations={
  *              "post"={
  *                   "denormalization_context"={
  *                       "groups"={"post"}
- *                  }
+ *                  },
+ *                  "normalization_context"={
+ *                      "groups"={}
+ *                  },
  *              }
  *          },
  * )

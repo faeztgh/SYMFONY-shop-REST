@@ -13,9 +13,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @ApiResource(
+ *     formats={
+ *          "json"
+ *     },
  *     itemOperations={
  *     "get"={
- *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
  *           "normalization_context"={
  *               "groups"={"get"}
  *            }
@@ -31,17 +33,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         }
  *      },
  *     collectionOperations={
- *
+ *              "get"={
+ *                  "normalization_context"={
+ *                   "groups"={"get"},
+ *                }
+ *     },
  *              "post"={
  *                   "denormalization_context"={
  *                       "groups"={"post"}
  *                  },
- *               "normalization_context"={
- *                   "groups"={"get"}
- *                }
  *              }
  *          },
  * )
+ *
+ *
  */
 class Product
 {
@@ -50,6 +55,7 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"get"})
+     *
      */
     private $id;
 
@@ -143,15 +149,19 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Seller::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"get"})
      */
     private $seller;
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="products")
-     * @Groups({"get"})
      */
     private $categories;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"get"})
+     */
+    private $rate;
 
 
     public function __construct()
@@ -245,18 +255,6 @@ class Product
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getFullName(): ?string
-    {
-        return $this->fullName;
-    }
-
-    public function setFullName(string $fullName): self
-    {
-        $this->fullName = $fullName;
 
         return $this;
     }
@@ -368,4 +366,35 @@ class Product
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getFullName();
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(int $rate): self
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+
 }

@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
+ *      formats={
+ *          "json"
+ *     },
  *     itemOperations={
  *     "get"={
  *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
@@ -32,14 +35,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         }
  *      },
  *     collectionOperations={
- *
  *              "post"={
  *                   "denormalization_context"={
  *                       "groups"={"post"}
  *                  },
- *               "normalization_context"={
- *                   "groups"={"get"}
- *                }
+ *                  "normalization_context"={
+ *                       "groups"={}
+ *                  }
  *              }
  *          },
  *
@@ -58,20 +60,19 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180)
      * @Groups({"get", "post"})
      */
     private string $username;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"get"})
      */
     private array $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups="post")
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z](?=.*[0-9]).{7,})/",
      *     message="Password must be 7 characters long and contain at least one digit, one uppercase letter, one lowercase letter and one special character"
@@ -81,8 +82,9 @@ class User implements UserInterface
     private ?string $password;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups="post")
      * @Assert\Expression(
+     *      groups="post",
      *     "this.getPassword() === this.getRetypedPassword()",
      *     message="Password do not match!"
      * )
@@ -115,7 +117,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"post", "put", "get"})
+     * @Groups({"put", "get"})
      */
     private $image;
 
@@ -137,27 +139,15 @@ class User implements UserInterface
      */
     private $lastLogin;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\OneToOne(targetEntity=Seller::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $seller;
 
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+     * @ORM\OneToOne(targetEntity=Customer::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    public function getUsername(): string
-    {
-        return (string)$this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
+    private $customer;
 
     /**
      * @see UserInterface
@@ -312,5 +302,74 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getSeller(): ?Seller
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(Seller $seller): self
+    {
+        // set the owning side of the relation if necessary
+        if ($seller->getUser() !== $this) {
+            $seller->setUser($this);
+        }
+
+        $this->seller = $seller;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(Customer $customer): self
+    {
+        // set the owning side of the relation if necessary
+        if ($customer->getUser() !== $this) {
+            $customer->setUser($this);
+        }
+
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getUsername();
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string)$this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
 
 }

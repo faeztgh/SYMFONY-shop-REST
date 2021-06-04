@@ -2,13 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f577c757-1bda-4b5a-8b29-95a8c81e28e8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/packages/gesdinet_jwt_refresh_token.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventSubscriber/AuthenticationSuccessListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/REST-demo-#3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/REST-demo-#3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/api_platform.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/api_platform.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210529162725.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530031146.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530040033.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530090702.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530111717.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530114944.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530181255.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530185312.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210530185941.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/CategoryCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/CategoryCrudController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/ContactCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/ContactCrudController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/CustomerCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/CustomerCrudController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/Admin/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/DashboardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/ProductsCrudController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/ProductCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/ProductCrudController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/SellerCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/SellerCrudController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/UserCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/UserCrudController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Products.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Customer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Customer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Seller.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Seller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ProductsRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +51,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/vendor/gesdinet/jwt-refresh-token-bundle/phpspec.yml" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/vendor/gesdinet/jwt-refresh-token-bundle/Service/RefreshToken.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/vendor/gesdinet/jwt-refresh-token-bundle/Command/RevokeRefreshTokenCommand.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -129,6 +162,7 @@
       <path value="$PROJECT_DIR$/vendor/stof/doctrine-extensions-bundle" />
       <path value="$PROJECT_DIR$/vendor/gedmo/doctrine-extensions" />
       <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
+      <path value="$PROJECT_DIR$/vendor/gesdinet/jwt-refresh-token-bundle" />
     </include_path>
   </component>
   <component name="ProjectId" id="1tD5p5HwemiexPvEoq0PlhUHUgw" />
@@ -172,7 +206,14 @@
       <workItem from="1622305493500" duration="10414000" />
       <workItem from="1622343350924" duration="6826000" />
       <workItem from="1622358031758" duration="14148000" />
-      <workItem from="1622384478919" duration="9093000" />
+      <workItem from="1622384478919" duration="9442000" />
+      <workItem from="1622430208989" duration="13241000" />
+      <workItem from="1622446797362" duration="6561000" />
+      <workItem from="1622462002054" duration="8584000" />
+      <workItem from="1622568041777" duration="4220000" />
+      <workItem from="1622605351707" duration="1883000" />
+      <workItem from="1622704497711" duration="1423000" />
+      <workItem from="1622723201488" duration="19926000" />
     </task>
     <servers />
   </component>

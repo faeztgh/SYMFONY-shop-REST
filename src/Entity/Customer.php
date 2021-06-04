@@ -11,6 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @ApiResource(
+ *      formats={
+ *          "json"
+ *     },
  *     itemOperations={
  *     "get"={
  *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
@@ -18,32 +21,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *               "groups"={"get"}
  *            }
  *     },
- *     "put"={
- *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
- *           "denormalization_context"={
- *               "groups"={"put"}
- *             },
- *           "normalization_context"={
- *               "groups"={"get"}
- *            }
- *         }
- *      },
- *     collectionOperations={
- *
- *              "post"={
- *                   "denormalization_context"={
- *                       "groups"={"post"}
- *                  },
- *               "normalization_context"={
- *                   "groups"={"get"}
- *                }
- *              }
- *          },
+ *   },
+ *     collectionOperations={}
  *
  * )
  * @UniqueEntity("phoneNo")
  */
-class Customer extends User
+class Customer
 {
     /**
      * @ORM\Id
@@ -77,10 +61,11 @@ class Customer extends User
      */
     private $isVerified = false;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="customer", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?User $user;
 
     public function getPhoneNo(): ?string
     {
@@ -128,5 +113,28 @@ class Customer extends User
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function __toString():string
+    {
+        return $this->getUser()->getUsername();
     }
 }

@@ -37,12 +37,13 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $this->loadAdmins($manager);
-//        $this->loadContacts($manager);
-//        $this->loadSellers($manager);
-//        $this->loadCustomer($manager);
-//        $this->loadtCategories($manager);
-//        $this->loadProducts($manager);
+//        $this->loadAdmins($manager);
+        $this->loadUsers($manager);
+        $this->loadContacts($manager);
+        $this->loadSellers($manager);
+        $this->loadCustomer($manager);
+        $this->loadtCategories($manager);
+        $this->loadProducts($manager);
 
     }
 
@@ -51,7 +52,7 @@ class AppFixtures extends Fixture
 
         $admin = new Admin();
         $admin->setUsername("super");
-        $admin->setRoles(["ROLE_SUPER_ADMIN"]);
+        $admin->setRoles(["ROLE_SUPER_ADMIN", "ROLE_ADMIN"]);
         $admin->setFullName("Super User");
         $admin->setEmail("faez.taghavi@gmail.com");
         $admin->setPassword(
@@ -79,9 +80,35 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    private function loadUsers(ObjectManager $manager)
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            $user = new User();
+            $user->setFirstName($this->faker->firstName);
+            $user->setLastName($this->faker->lastName);
+            $user->setUsername($this->faker->userName);
+            $user->setEmail($this->faker->email);
+            $user->setCreatedAt($this->faker->dateTimeThisDecade);
+            $user->setUpdatedAt($this->faker->dateTimeThisDecade);
+            $user->setImage("https://picsum.photos/500/300?random=$i");
+
+            $user->setPassword(
+                $this->passwordEncoder->encodePassword(
+                    $user,
+                    $this->faker->password
+                )
+            );
+
+            $this->addReference("user$i", $user);
+            $manager->persist($user);
+        }
+
+        $manager->flush();
+    }
+
     private function loadContacts(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $contact = new Contact();
             $contact->setName($this->faker->name);
             $contact->setEmail($this->faker->email);
@@ -96,28 +123,29 @@ class AppFixtures extends Fixture
 
     private function loadSellers(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 10; $i >= 1; $i--) {
             $seller = new Seller();
-            $seller->setUsername($this->faker->userName);
-            $seller->setFirstName($this->faker->firstName);
-            $seller->setLastName($this->faker->lastName);
-            $seller->setEmail($this->faker->email);
+//            $seller->setUsername($this->faker->userName);
+//            $seller->setFirstName($this->faker->firstName);
+//            $seller->setLastName($this->faker->lastName);
+//            $seller->setEmail($this->faker->email);
             $seller->setPhoneNo($this->faker->phoneNumber);
             $seller->setAddress($this->faker->address);
             $seller->setCountry($this->faker->country);
             $seller->setIsVerified($this->faker->boolean(50));
-            $seller->setImage("https://picsum.photos/500/300?random=$i");
-            $seller->setCreatedAt($this->faker->dateTimeThisDecade);
-            $seller->setUpdatedAt($this->faker->dateTimeThisDecade);
-
-            $seller->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $seller,
-                    $this->faker->password
-                )
-            );
+//            $seller->setImage("https://picsum.photos/500/300?random=$i");
+//            $seller->setCreatedAt($this->faker->dateTimeThisDecade);
+//            $seller->setUpdatedAt($this->faker->dateTimeThisDecade);
+//
+//            $seller->setPassword(
+//                $this->passwordEncoder->encodePassword(
+//                    $seller,
+//                    $this->faker->password
+//                )
+//            );
 
             $this->setReference("seller$i", $seller);
+            $seller->setUser($this->getReference("user$i"));
 
             $manager->persist($seller);
         }
@@ -127,28 +155,28 @@ class AppFixtures extends Fixture
 
     private function loadCustomer(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $customer = new Customer();
-            $customer->setUsername($this->faker->userName);
-            $customer->setFirstName($this->faker->firstName);
-            $customer->setLastName($this->faker->lastName);
-            $customer->setEmail($this->faker->email);
+//            $customer->setUsername($this->faker->userName);
+//            $customer->setFirstName($this->faker->firstName);
+//            $customer->setLastName($this->faker->lastName);
+//            $customer->setEmail($this->faker->email);
             $customer->setPhoneNo($this->faker->phoneNumber);
             $customer->setAddress($this->faker->address);
             $customer->setCountry($this->faker->country);
             $customer->setIsVerified($this->faker->boolean(50));
-            $customer->setImage("https://picsum.photos/500/300?random=$i");
-            $customer->setCreatedAt($this->faker->dateTimeThisDecade);
-            $customer->setUpdatedAt($this->faker->dateTimeThisDecade);
+//            $customer->setImage("https://picsum.photos/500/300?random=$i");
+//            $customer->setCreatedAt($this->faker->dateTimeThisDecade);
+//            $customer->setUpdatedAt($this->faker->dateTimeThisDecade);
+//
+//            $customer->setPassword(
+//                $this->passwordEncoder->encodePassword(
+//                    $customer,
+//                    $this->faker->password
+//                )
+//            );
 
-            $customer->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $customer,
-                    $this->faker->password
-                )
-            );
-
-
+            $customer->setUser($this->getReference("user$i"));
             $manager->persist($customer);
         }
 
@@ -157,7 +185,7 @@ class AppFixtures extends Fixture
 
     private function loadtCategories(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $category = new Category();
             $category->setName($this->faker->word);
             $category->setDescription($this->faker->realText(50));
@@ -165,6 +193,7 @@ class AppFixtures extends Fixture
             $category->setThumbnail("https://picsum.photos/200/200?random=$i");
 
             $this->setReference("cat$i", $category);
+
             $manager->persist($category);
 
         }
@@ -174,11 +203,11 @@ class AppFixtures extends Fixture
 
     private function loadProducts(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $product = new Product();
             $product->setFullName("product$i");
             $product->setBrand($this->faker->firstNameMale);
-            $product->setModel($this->faker->randomKey());
+            $product->setModel($this->faker->password);
             $product->setQuantity($this->faker->randomDigitNotNull);
             $product->setColor($this->faker->colorName);
             $product->setDicount(round($this->faker->randomFloat()));
@@ -189,34 +218,15 @@ class AppFixtures extends Fixture
             $product->setWeight($this->faker->randomDigitNotNull);
             $product->setCreatedAt($this->faker->dateTimeThisDecade);
             $product->setUpdatedAt($this->faker->dateTimeThisDecade);
+            $product->setRate($this->faker->numberBetween(1, 5));
 
             $product->setThumbnail("https://picsum.photos/200/200?random=$i");
             $product->setImage("https://picsum.photos/500/300?random=$i");
 
-            $product->addCategory($this->getReference("cat$i"));
-            $product->setSeller($this->getReference("seller$i"));
+            $product->addCategory($this->getReference("cat" . rand(1, 10)));
+            $product->setSeller($this->getReference("seller" . rand(1, 10)));
 
             $manager->persist($product);
-        }
-
-        $manager->flush();
-    }
-
-    private function loadUsers(ObjectManager $manager)
-    {
-        for ($i = 0; $i < 10; $i++) {
-            $user = new User();
-            $user->setUsername($this->faker->userName);
-            $user->setEmail($this->faker->email);
-
-            $user->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $user,
-                    $this->faker->password
-                )
-            );
-
-            $manager->persist($user);
         }
 
         $manager->flush();

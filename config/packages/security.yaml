@@ -31,6 +31,10 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+        refresh:
+            pattern: ^/token/refresh
+            stateless: true
+            anonymous: true
         admin:
             pattern: ^/
             anonymous: lazy
@@ -46,6 +50,7 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/api/docs, roles: ROLE_ADMIN }
 #        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 #        - { path: ^/profile, roles: ROLE_USER }

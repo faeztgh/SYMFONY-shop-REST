@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SellerRepository::class)
  */
-class Seller extends User
+class Seller
 {
     /**
      * @ORM\Id
@@ -43,6 +43,12 @@ class Seller extends User
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="seller", orphanRemoval=true)
      */
     private $products;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="seller", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -131,4 +137,33 @@ class Seller extends User
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getUser()->getUsername();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+
+    /**
+     * @param ArrayCollection $products
+     */
+    public function setProducts(ArrayCollection $products): void
+    {
+        $this->products = $products;
+    }
+
+
 }

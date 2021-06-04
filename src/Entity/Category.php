@@ -12,6 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @ApiResource(
+ *      formats={
+ *          "json"
+ *     },
  *     itemOperations={
  *     "get"={
  *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
@@ -21,14 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          },
  *      },
  *     collectionOperations={
- *              "post"={
- *                   "denormalization_context"={
- *                       "groups"={"post"}
- *                  },
- *               "normalization_context"={
- *                   "groups"={"get"}
- *                }
- *              }
+ *               "get",
  *          },
  * )
  */
@@ -81,18 +77,6 @@ class Category
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getDescription(): ?string
@@ -158,5 +142,21 @@ class Category
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
 }
